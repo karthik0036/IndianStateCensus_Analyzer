@@ -1,5 +1,6 @@
 package com.bridge.model;
 
+import com.bridge.service.CensusAnalyzerException;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -12,7 +13,7 @@ import java.util.stream.StreamSupport;
 
 public class CensusAnalyzer {
 
-    public int loadIndiaCensusData(String csvFilePath) throws IOException {
+    public int loadIndiaCensusData(String csvFilePath) throws IOException, CensusAnalyzerException {
         Reader reader = null;
         try {
             reader = Files.newBufferedReader(Paths.get(csvFilePath));
@@ -28,9 +29,8 @@ public class CensusAnalyzer {
             return count;
         } catch (
                 IOException e) {
-            System.out.println(e);
+            throw new CensusAnalyzerException(e.getMessage(), CensusAnalyzerException.ExceptionType.CENSUS_FILE_INCORRECT);
         }
-        return 0;
 
     }
 
