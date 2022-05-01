@@ -30,8 +30,9 @@ public class CensusAnalyzer {
             Iterable<IndiaCensusCSV> csvIterable = () -> iterator;
             int count = (int) StreamSupport.stream(csvIterable.spliterator(), true).count();
             return count;
-        } catch (
-                IOException e) {
+        } catch (RuntimeException e) {
+            throw new CensusAnalyzerException("CSV File Must Have Comma As Delimiter", CensusAnalyzerException.ExceptionType.CENSUS_WRONG_DELIMITER);
+        }catch (IOException e) {
             throw new CensusAnalyzerException(e.getMessage(), CensusAnalyzerException.ExceptionType.CENSUS_FILE_INCORRECT);
         }
 
