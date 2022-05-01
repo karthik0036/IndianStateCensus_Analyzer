@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.stream.StreamSupport;
 
 public class CensusAnalyzer {
 
@@ -22,12 +23,9 @@ public class CensusAnalyzer {
 
             // iterator doesn't consume memory
             Iterator<IndiaCensusCSV> iterator = csvToBean.iterator();
-            int numOfEntries = 0;
-            while (iterator.hasNext()) {
-                numOfEntries++;
-                iterator.next();
-            }
-            return numOfEntries;
+            Iterable<IndiaCensusCSV> csvIterable = () -> iterator;
+            int count = (int) StreamSupport.stream(csvIterable.spliterator(), true).count();
+            return count;
         } catch (
                 IOException e) {
             System.out.println(e);

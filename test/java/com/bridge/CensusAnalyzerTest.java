@@ -10,6 +10,7 @@ import java.io.IOException;
 public class CensusAnalyzerTest {
     private String INDIAN_CENSUS_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
 
+    //TC-1.1
     @Test
     public void givenIndianCensusCSVFile_WhenLoad_ShouldReturnCorrectRecords() throws IOException {
 
