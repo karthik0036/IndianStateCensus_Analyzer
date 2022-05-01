@@ -16,6 +16,9 @@ public class CensusAnalyzer {
     public int loadIndiaCensusData(String csvFilePath) throws IOException, CensusAnalyzerException {
         Reader reader = null;
         try {
+            if (csvFilePath.contains("txt")) {
+                throw new CensusAnalyzerException("File must be in CSV Format", CensusAnalyzerException.ExceptionType.CENSUS_INCORRECT_FILE_FORMAT);
+            }
             reader = Files.newBufferedReader(Paths.get(csvFilePath));
             CsvToBean<IndiaCensusCSV> csvToBean = new CsvToBeanBuilder<IndiaCensusCSV>(reader)
                     .withType(IndiaCensusCSV.class)

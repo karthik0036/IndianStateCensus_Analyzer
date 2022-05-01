@@ -9,10 +9,14 @@ import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
 
+import static com.bridge.service.CensusAnalyzerException.ExceptionType.CENSUS_INCORRECT_FILE_FORMAT;
+
 public class CensusAnalyzerTest {
     private String INDIAN_CENSUS_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
     //wrong path
     private String INDIAN_CENSUS_WRONG_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
+    //Wrong Filetype
+    private String INDIAN_CENSUS_INCORRECT_FILE_FORMAT = "./src/main/resources/IndiaStateCensusData.txt";
 
     //TC-1.1
     @Test
@@ -38,5 +42,20 @@ public class CensusAnalyzerTest {
             e.printStackTrace();
         }
 
+    }
+    //TC1.3
+    @Test
+    public void givenIndianCensusCSVFile_WhenCorrectPathButWrongFileFormat_ShouldThrowException() {
+
+        try {
+            CensusAnalyzer censusAnalyser = new CensusAnalyzer();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyzerException.class);
+            censusAnalyser.loadIndiaCensusData(INDIAN_CENSUS_INCORRECT_FILE_FORMAT);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CENSUS_INCORRECT_FILE_FORMAT, e.type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
