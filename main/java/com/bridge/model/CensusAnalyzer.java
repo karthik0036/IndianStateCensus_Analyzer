@@ -39,7 +39,11 @@ public class CensusAnalyzer {
     }
  //IndianStateCodeCsv-Read
     public int loadIndianStateCodeData(String csvFilePath) throws IOException, CensusAnalyzerException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+        try {
+            if (csvFilePath.contains("txt")) {
+                throw new CensusAnalyzerException("File must be in CSV Format", CensusAnalyzerException.ExceptionType.CENSUS_INCORRECT_FILE_FORMAT);
+            }
+            Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             CsvToBean<IndianStateCodeCSV> csvToBean = new CsvToBeanBuilder<IndianStateCodeCSV>(reader)
                     .withType(IndianStateCodeCSV.class)
                     .withIgnoreLeadingWhiteSpace(true)
@@ -53,5 +57,4 @@ public class CensusAnalyzer {
             throw new CensusAnalyzerException(e.getMessage(), CensusAnalyzerException.ExceptionType.CENSUS_FILE_INCORRECT);
         }
     }
-
 }
