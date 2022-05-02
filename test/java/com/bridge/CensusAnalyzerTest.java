@@ -28,6 +28,8 @@ public class CensusAnalyzerTest {
     private String INDIAN_STATE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
     private String INDIAN_STATE_CODE_WRONGCSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
     private String INDIAN_STATE_CODE_INCORRECT_FILE_FORMAT = "./src/main/resources/IndiaStateCodeData.txt";
+    private String INDIAN_STATE_CODE_WITHWRONG_DELIMITER = "src/main/resources/IndiaStateCodeWithWrongDelimeter.csv";
+    private String INDIAN_STATE_CODE_WITHWRONG_HEADER = "src/main/resources/IndiaStateCodeWithWrongHeader.csv";
 
 
 
@@ -140,6 +142,38 @@ public class CensusAnalyzerTest {
             censusAnalyser.loadIndiaCensusData(INDIAN_STATE_CODE_INCORRECT_FILE_FORMAT);
         } catch (CensusAnalyzerException e) {
             Assert.assertEquals(CENSUS_INCORRECT_FILE_FORMAT, e.type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // TC2.4
+    @Test
+    public void givenIndianStateCodeCSVFile_WhenWrongDelimiter_ShouldThrowException() {
+
+        try {
+            CensusAnalyzer censusAnalyser = new CensusAnalyzer();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyzerException.class);
+            censusAnalyser.loadIndiaCensusData(INDIAN_STATE_CODE_WITHWRONG_DELIMITER);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.ExceptionType.CENSUS_WRONG_DELIMITER, e.type);
+            e.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // TC2.5
+    @Test
+    public void givenIndianStateCodeCSVFile_WhenWrongHeader_ShouldThrowException() {
+
+        try {
+            CensusAnalyzer censusAnalyser = new CensusAnalyzer();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyzerException.class);
+            censusAnalyser.loadIndiaCensusData(INDIAN_STATE_CODE_WITHWRONG_HEADER);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.ExceptionType.CENSUS_WRONG_DELIMITER_OR_WRONG_HEADER, e.type);
+            e.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
