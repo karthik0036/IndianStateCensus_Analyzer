@@ -37,7 +37,7 @@ public class CensusAnalyzer {
         }
 
     }
-
+ //IndianStateCodeCsv-Read
     public int loadIndianStateCodeData(String csvFilePath) throws IOException {
         Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
         CsvToBean<IndianStateCodeCSV> csvToBean = new CsvToBeanBuilder<IndianStateCodeCSV>(reader)
