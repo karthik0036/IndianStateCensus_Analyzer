@@ -26,6 +26,7 @@ public class CensusAnalyzerTest {
 
     //IndiaStateCodeCsv
     private String INDIAN_STATE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
+    private String INIDAN_STATE__CODE_WRONGCSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
 
 
 
@@ -109,5 +110,21 @@ public class CensusAnalyzerTest {
         CensusAnalyzer censusAnalyser = new CensusAnalyzer();
         int count = censusAnalyser.loadIndianStateCodeData(INDIAN_STATE_CSV_FILE_PATH);
         Assert.assertEquals(37, count);
+    }
+
+    // TC2.2
+    @Test
+    public void givenIndianStateCode_WrongCSVFile_WhenLoad_ShouldReturnException() {
+        try {
+            CensusAnalyzer censusAnalyser = new CensusAnalyzer();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyzerException.class);
+            censusAnalyser.loadIndianStateCodeData(INIDAN_STATE__CODE_WRONGCSV_FILE_PATH);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(e.type, CensusAnalyzerException.ExceptionType.CENSUS_FILE_INCORRECT);
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
