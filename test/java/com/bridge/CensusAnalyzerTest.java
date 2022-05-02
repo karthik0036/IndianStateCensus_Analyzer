@@ -12,6 +12,8 @@ import java.io.IOException;
 import static com.bridge.service.CensusAnalyzerException.ExceptionType.CENSUS_INCORRECT_FILE_FORMAT;
 
 public class CensusAnalyzerTest {
+
+    //IndiaStateCensusData
     private String INDIAN_CENSUS_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
     //wrong path
     private String INDIAN_CENSUS_WRONG_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
@@ -21,6 +23,11 @@ public class CensusAnalyzerTest {
     private String INDIAN_CENSUS_WRONG_DELIMITER = "./src/main/resources/IndiaStateCensusDataWithWrongDelimetre.csv";
     //wrongHeader
     private String INDIAN_CENSUS_WITHWRONG_HEADER = "src/main/resources/IndiaStateCensusDataWithWrongHeader.csv";
+
+    //IndiaStateCodeCsv
+    private String INDIAN_STATE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
+
+
 
     //TC-1.1
     @Test
@@ -95,5 +102,12 @@ public class CensusAnalyzerTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    // UC2 -  TC2.1
+    @Test
+    public void givenIndianStateCodeCSVFile_WhenLoad_ShouldReturnCorrectRecords() throws Exception {
+        CensusAnalyzer censusAnalyser = new CensusAnalyzer();
+        int count = censusAnalyser.loadIndianStateCodeData(INDIAN_STATE_CSV_FILE_PATH);
+        Assert.assertEquals(37, count);
     }
 }
