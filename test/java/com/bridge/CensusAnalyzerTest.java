@@ -19,6 +19,8 @@ public class CensusAnalyzerTest {
     private String INDIAN_CENSUS_INCORRECT_FILE_FORMAT = "./src/main/resources/IndiaStateCensusData.txt";
     //Wrong Delimeter
     private String INDIAN_CENSUS_WRONG_DELIMITER = "./src/main/resources/IndiaStateCensusDataWithWrongDelimetre.csv";
+    //wrongHeader
+    private String INDIAN_CENSUS_WITHWRONG_HEADER = "src/main/resources/IndiaStateCensusDataWithWrongHeader.csv";
 
     //TC-1.1
     @Test
@@ -73,6 +75,22 @@ public class CensusAnalyzerTest {
         }
         catch (CensusAnalyzerException e) {
             Assert.assertEquals(CensusAnalyzerException.ExceptionType.CENSUS_WRONG_DELIMITER, e.type);
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // TC1.5
+    @Test
+    public void givenIndianCensusCSVFile_WhenWrongHeader_ShouldThrowException() {
+
+        try {
+            CensusAnalyzer censusAnalyser = new CensusAnalyzer();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyzerException.class);
+            censusAnalyser.loadIndiaCensusData(INDIAN_CENSUS_WITHWRONG_HEADER);
+        } catch (CensusAnalyzerException e) {
+            Assert.assertEquals(CensusAnalyzerException.ExceptionType.CENSUS_WRONG_DELIMITER_OR_WRONG_HEADER, e.type);
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
